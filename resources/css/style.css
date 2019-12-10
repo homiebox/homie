@@ -14,9 +14,9 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 30px;
-  background-color: #00994d;
+  background-color: #000000;
     border-top-style: solid;
-    border-top: thin solid #00994d;
+    border-top: thin solid #000000;
 }
 
 .footer .text-muted, .footer a{
@@ -74,7 +74,7 @@ body {
         top: 50px;
         left: 0px;
 
-        background-color: #dfefe7;
+        background-color: #000000;
         width: 100%;
 
         z-index: 100;
@@ -126,7 +126,7 @@ body {
     }
 
     .darker {
-        background-color: #dfefe7;
+        background-color: #dddddd;
     }
 
     .wrapper {

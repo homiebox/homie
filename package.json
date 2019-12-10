@@ -1,7 +1,7 @@
 {
   "name": "homie",
   "version": "0.0.1",
-  "description": "Snips games platform based on audio DOA",
+  "description": "Snips games platform based on audio DoA",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

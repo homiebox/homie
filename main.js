@@ -25,14 +25,14 @@ function createWindow () {
               webgl: true,
               nodeIntegration : true
     },
-    icon: path.join(__dirname, 'resources/images/introlab_icon.png'),
+    icon: path.join(__dirname, 'resources/img/homie_logo.png'),
     show: false
   })
 
 
   // and load the index.html of the app.
   odasStudio.mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'views/live_data.html'),
+    pathname: path.join(__dirname, 'homie_views_test/accueil.html'),
     protocol: 'file:',
     slashes: true
   }))
