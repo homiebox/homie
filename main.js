@@ -1,4 +1,5 @@
 const electron = require('electron')
+const { withHermes } = require('hermes-javascript')
 
 // Module to control application life.
 const app = electron.app
@@ -74,6 +75,23 @@ app.on('activate', function () {
   if (odasStudio.mainWindow === null) {
     createWindow()
   }
+})
+
+// Snips test Philips Hue Lights 
+withHermes(hermes => {
+  const dialog = hermes.dialog()
+
+  dialog.flow('turnOn',(msg, flow) => {
+    console.log(msg)
+    flow.end()
+    return "Homie lights goes on!"
+  })
+
+  dialog.flow('turnOff',(msg, flow) => {
+    console.log(msg)
+    flow.end()
+    return "Homie lights goes off!"
+  })
 })
 
 // In this file you can include the rest of your app's specific main process
