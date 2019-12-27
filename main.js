@@ -13,12 +13,12 @@ const url = require('url')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let odasStudio = {}
+let homie = {}
 
 function createWindow () {
 
   // Create the browser window.
-  odasStudio.mainWindow = new BrowserWindow({
+  homie.mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     webPreferences: {
@@ -31,7 +31,7 @@ function createWindow () {
 
 
   // and load the index.html of the app.
-  odasStudio.mainWindow.loadURL(url.format({
+  homie.mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'homie_views_test/accueil.html'),
     protocol: 'file:',
     slashes: true
@@ -41,17 +41,17 @@ function createWindow () {
   //mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
-  odasStudio.mainWindow.on('closed', function () {
+  homie.mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    odasStudio.mainWindow = null
+    homie.mainWindow = null
     record.quit()
     app.quit()
   })
 
-  odasStudio.mainWindow.on('ready-to-show', function() {
-    odasStudio.mainWindow.show()
+  homie.mainWindow.on('ready-to-show', function() {
+    homie.mainWindow.show()
   })
 }
 
@@ -72,7 +72,7 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (odasStudio.mainWindow === null) {
+  if (homie.mainWindow === null) {
     createWindow()
   }
 })
@@ -97,11 +97,11 @@ withHermes(hermes => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-const sockets = require('./servers.js')
-const record = require('./record.js')
-require('./share.js')
-require('./configure.js')
-odasStudio.odas = require('./odas.js')
+const sockets = require('./resources/odas_web/servers.js')
+//const record = require('./resources/odas_web/record.js')
+require('./resources/odas_web/share.js')
+require('./resources/odas_web/configure.js')
+homie.odas = require('./resources/odas_web/odas.js')
 
-sockets.startTrackingServer(odasStudio)
-sockets.startPotentialServer(odasStudio)
+sockets.startTrackingServer(homie)
+sockets.startPotentialServer(homie)

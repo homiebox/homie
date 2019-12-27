@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const url = require('url')
 const net = require('net')
-const AudioRecorder = require('./audio-recorder.js').AudioRecorder
+const AudioRecorder = require('./audio-srecorder.js').AudioRecorder
 
 /*
  * Audio parameters
