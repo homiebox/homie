@@ -1,5 +1,5 @@
 const electron = require('electron')
-const { withHermes } = require('hermes-javascript')
+//const { withHermes } = require('hermes-javascript')
 
 // Module to control application life.
 const app = electron.app
@@ -77,23 +77,6 @@ app.on('activate', function () {
   }
 })
 
-// Snips test Philips Hue Lights 
-withHermes(hermes => {
-  const dialog = hermes.dialog()
-
-  dialog.flow('turnOn',(msg, flow) => {
-    console.log(msg)
-    flow.end()
-    return "Homie lights goes on!"
-  })
-
-  dialog.flow('turnOff',(msg, flow) => {
-    console.log(msg)
-    flow.end()
-    return "Homie lights goes off!"
-  })
-})
-
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
@@ -105,3 +88,9 @@ homie.odas = require('./resources/odas_web/odas.js')
 
 sockets.startTrackingServer(homie)
 sockets.startPotentialServer(homie)
+
+//****** HOMIE games ******//
+
+require('./homie.js')
+require('./games/dev.js')
+require('./games/pendu.js')

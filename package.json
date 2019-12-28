@@ -8,7 +8,7 @@
     "postinstall": "./node_modules/.bin/electron-rebuild"
   },
   "author": "StFog",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "electron": "^5.0.3",
     "electron-rebuild": "^1.8.5"
