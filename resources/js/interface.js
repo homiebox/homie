@@ -4,7 +4,10 @@
  */
 
 // Sources
-var rgbValueStrings = ["rgb(75,192,192)","rgb(192,75,192)","rgb(192,192,30)","rgb(0,200,40)"];
+//var rgbValueStrings = ["rgb(75,192,192)","rgb(192,75,192)","rgb(192,192,30)","rgb(0,200,40)"];
+
+//Reduced to one source for Homie app
+var rgbValueStrings = ["rgb(75,192,192)"];
 
 // Energy gradiant
 var heatmapColors = ['rgb(16, 0, 229)',

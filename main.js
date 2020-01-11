@@ -46,7 +46,7 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     homie.mainWindow = null
-    record.quit()
+    //record.quit()
     app.quit()
   })
 
@@ -92,5 +92,5 @@ sockets.startPotentialServer(homie)
 //****** HOMIE games ******//
 
 require('./homie.js')
-require('./games/dev.js')
-require('./games/pendu.js')
+//require('./games/dev.js')
+//require('./games/pendu.js')

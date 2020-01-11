@@ -1,7 +1,21 @@
-const electron = require('electron');
 const { withHermes } = require('hermes-javascript')
+//****** Dev Game ******//
 
-const ipcRenderer = require('electron').ipcRenderer
+//****** from Odas ******//
+
+var angle;
+
+// Add listener for DoA 
+document.addEventListener('tracking', function(e) {
+
+  // Update source
+  currentFrame.sources.forEach(function(source,index) {
+      angle = source.x;
+      console.log(angle);
+  });
+});
+
+//****** from Snips ******//
 
 withHermes(hermes => {
     const dialog = hermes.dialog()
@@ -15,10 +29,7 @@ withHermes(hermes => {
     dialog.flow('MagicBoxEi2i:dev_quelAngle',(msg, flow) => {
       console.log(msg)
       flow.end()
-      return "Ton angle est de X degrés"
+      return "Ton angle est " +angle 
     })
   })
   
-
-
-
