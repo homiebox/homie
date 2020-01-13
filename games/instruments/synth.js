@@ -4,10 +4,12 @@ const LightState = v3.lightStates.LightState;
 
 //****** Philips Hue ******//
 
-const USERNAME = 'q4lxCJTJLbCSdblLvrsaSrKax8ZPmcspO1vAv4NJ' //'your username to authenticating with the bridge'
+const USERNAME =  'your username to authenticating with the bridge'
   // The name of the light we wish to retrieve by name
   , LIGHT_ID = 2
 ;
+
+const MyLighState = new LightState();
 
 v3.discovery.nupnpSearch()
   .then(searchResults => {
@@ -28,13 +30,49 @@ v3.discovery.nupnpSearch()
   })
 ;
 
+//****** from Snips  ******//
+
+withHermes(hermes => {
+  const dialog = hermes.dialog()
+
+  dialog.flow('MagicBoxEi2i:home_goHome',(msg, flow) => {
+    console.log(msg)
+    flow.end()
+    return "Veux tu arreter le jeu?"
+  })
+
+  dialog.flow('MagicBoxEi2i:home_stopGame',(msg, flow) => {
+      console.log(msg)
+      flow.end()
+      return "Veux tu arreter cette partie?"
+  })
+
+  dialog.flow('MagicBoxEi2i:synth_play',(msg, flow) => {
+    console.log(msg)
+    flow.end()
+    return "D'accord je joue le morceau"
+  })
+
+  dialog.flow('MagicBoxEi2i:synth_generate',(msg, flow) => {
+      console.log(msg)
+      flow.end()
+      oscillator1.type = "square";
+      //MyLighState.sat(500);
+      v3.lightStates
+      return "L'oscillateur génère une onde de forme " + msg.slots[0].value.value + "."
+  })
+
+  dialog.flow('MagicBoxEi2i:synth_pitch',(msg, flow) => {
+    console.log(msg)
+    flow.end()
+    return "Je change la tonalité de X tons X octaves"
+})
+})
+
 //****** Synth Game ******//
 
 const Speaker = require("speaker");
-//const AudioContext = require('web-audio-engine').StreamAudioContext;
-const AudioContext = require('web-audio-engine').StreamAudioContext;
-const context = new AudioContext();
-
+var context = new window.AudioContext(); // définition du contexte audio WORKING WITH SNIPS BACKGROUND OK
 
 //****** Demo 1 (web-audio-engine) ******//
 /*
@@ -89,7 +127,7 @@ amp.connect(context.destination);
   var gain2 = context.createGain();
 
 
-  oscillator1.type = "square";
+  oscillator1.type = "sawtooth";
   oscillator1.frequency.value = 500 ;
   oscillator1.start();
   oscillator1.connect(biquadFilter);
@@ -113,9 +151,7 @@ amp.connect(context.destination);
   //****** from Odas ******//
 
   var angle;
-  const MyLighState = new LightState();
 
-  /*
   // Add listener for DoA 
   document.addEventListener('tracking', function(e) {
 
@@ -134,11 +170,10 @@ amp.connect(context.destination);
     
     //MyLightState.sat(angle);  
 });
-*/
+
 //****** End Demo 2 ******//
 
 console.log('******synthTest End******');
-
 
 
 // Set the output for audio streaming
@@ -152,42 +187,3 @@ context.resume();
  
 // composeWith(context);
 
-
-
-//****** from Snips  ******//
-
-withHermes(hermes => {
-    const dialog = hermes.dialog()
-  
-    dialog.flow('MagicBoxEi2i:home_goHome',(msg, flow) => {
-      console.log(msg)
-      flow.end()
-      return "Veux tu arreter le jeu?"
-    })
-
-    dialog.flow('MagicBoxEi2i:home_stopGame',(msg, flow) => {
-        console.log(msg)
-        flow.end()
-        return "Veux tu arreter cette partie?"
-    })
-  
-    dialog.flow('MagicBoxEi2i:synth_play',(msg, flow) => {
-      console.log(msg)
-      flow.end()
-      return "D'accord je joue le morceau"
-    })
-
-    dialog.flow('MagicBoxEi2i:synth_generate',(msg, flow) => {
-        console.log(msg)
-        flow.end()
-        return "L'oscillateur génère une onde de forme "
-    })
-
-    dialog.flow('MagicBoxEi2i:synth_pitch',(msg, flow) => {
-      console.log(msg)
-      flow.end()
-      return "Je change la tonalité de X tons X octaves"
-  })
-
-
-})
