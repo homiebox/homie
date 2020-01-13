@@ -1,21 +1,15 @@
 const electron = require('electron');
 const { withHermes } = require('hermes-javascript')
 
-//const spawn = require('child_process').spawn;
-//const path = require('path')
-//const url = require('url')
+//****** HOMIE ******//
 
-//const BrowserWindow = electron.BrowserWindow;
-//const ipcMain = electron.ipcMain;
-
-// Snips tests
 withHermes(hermes => {
     const dialog = hermes.dialog()
   
     dialog.flow('MagicBoxEi2i:home_goHome',(msg, flow) => {
       console.log(msg)
       flow.end()
-      return "Veux tu arreter le jeu?"
+      return "On arrete le jeu?"
     })
 
     dialog.flow('MagicBoxEi2i:home_stopGame',(msg, flow) => {
@@ -24,10 +18,11 @@ withHermes(hermes => {
         return "Veux tu arreter cette partie?"
     })
 
+    /* Open a Game */
     dialog.flow('MagicBoxEi2i:home_openGame',(msg, flow) => {
-      console.log(msg)
+      console.log(msg.slots[0].value.value)
       flow.end()
-      return "D'accord, j'ouvre le jeu de "
+      return "D'accord, j'ouvre le jeu de " + msg.slots[0].value.value + "."
     })
 
     dialog.flow('MagicBoxEi2i:home_startWizard',(msg, flow) => {
@@ -39,7 +34,7 @@ withHermes(hermes => {
     dialog.flow('MagicBoxEi2i:wizard_yesNo',(msg, flow) => {
       console.log(msg)
       flow.end()
-      return "Vous avez repondu oui/non"
+      return "Vous avez repondu "+ msg.slots[0].value.value +"."
     })
 
     dialog.flow('MagicBoxEi2i:wizard_previous',(msg, flow) => {

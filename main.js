@@ -1,5 +1,4 @@
 const electron = require('electron')
-//const { withHermes } = require('hermes-javascript')
 
 // Module to control application life.
 const app = electron.app
@@ -92,5 +91,5 @@ sockets.startPotentialServer(homie)
 //****** HOMIE games ******//
 
 require('./homie.js')
-//require('./games/dev.js')
+//require('./games/synth.js')
 //require('./games/pendu.js')

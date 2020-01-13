@@ -1,4 +1,3 @@
-const electron = require('electron');
 const { withHermes } = require('hermes-javascript')
 
 withHermes(hermes => {
@@ -7,25 +6,31 @@ withHermes(hermes => {
     dialog.flow('MagicBoxEi2i:home_goHome',(msg, flow) => {
       console.log(msg)
       flow.end()
-      return "Homie go home"
+      return "Veux tu arreter le jeu?"
     })
 
     dialog.flow('MagicBoxEi2i:home_stopGame',(msg, flow) => {
         console.log(msg)
         flow.end()
-        return "Homie fin du game wesh"
+        return "Veux tu arreter cette partie?"
     })
   
-    dialog.flow('MagicBoxEi2i:hangman_whichLetter',(msg, flow) => {
+    dialog.flow('MagicBoxEi2i:robot_follow',(msg, flow) => {
       console.log(msg)
       flow.end()
-      return "Ta lettre est"
+      return "Ok je te suis"
     })
 
-    dialog.flow('MagicBoxEi2i:hangman_whichWord',(msg, flow) => {
+    dialog.flow('MagicBoxEi2i:robot_stop',(msg, flow) => {
         console.log(msg)
         flow.end()
-        return "Ton mot est"
+        return "Très bien, je coupe le moteur"
     })
+
+    dialog.flow('MagicBoxEi2i:robot_go',(msg, flow) => {
+        console.log(msg)
+        flow.end()
+        return "D'accord j'arrive"
+    })
+    
 })
-  
