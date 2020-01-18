@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "@google-cloud/speech": "^3.2.0",
+    "etherport-client": "^0.1.4",
     "grpc": "^1.21.1",
     "hermes-javascript": "^0.4.1",
     "ip": "^1.1.5",
+    "johnny-five": "^1.4.0",
     "mathjs": "^6.0.1",
     "musical.js": "0.0.1",
     "node-hue-api": "^4.0.2",
