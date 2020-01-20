@@ -36,34 +36,28 @@ v3.discovery.nupnpSearch()
 withHermes(hermes => {
   const dialog = hermes.dialog()
 
-  dialog.flow('MagicBoxEi2i:home_goHome',(msg, flow) => {
-    console.log(msg)
-    flow.end()
-    return "Veux tu arreter le jeu?"
-  })
-
-  dialog.flow('MagicBoxEi2i:home_stopGame',(msg, flow) => {
+  dialog.flow('MagicBoxEi2i:theremin_addNode',(msg, flow) => {
       console.log(msg)
       flow.end()
-      return "Veux tu arreter cette partie?"
+      return "Très bien l'artiste. J'ajoute un biquoide. Mais comment t'es complétement glucose!"
   })
 
-  dialog.flow('MagicBoxEi2i:synth_play',(msg, flow) => {
+  dialog.flow('MagicBoxEi2i:teremin_changeFrequency',(msg, flow) => {
     console.log(msg)
     flow.end()
-    return "D'accord je joue le morceau"
+    return "OK chef! C'est compris chef! Bon et bien go! Je modifie la fréquence de l'oscillo à 100 Hertz. "
   })
 
-  dialog.flow('MagicBoxEi2i:synth_generate',(msg, flow) => {
+  dialog.flow('MagicBoxEi2i:theremin_generate',(msg, flow) => {
       console.log(msg)
       flow.end()
       oscillator1.type = "square";
       //MyLighState.sat(500);
       v3.lightStates
-      return "L'oscillateur génère une onde de forme " + msg.slots[0].value.value + "."
+      return "Ouaaah! Tellement glucose! Il a demandé une forme d'onde " + msg.slots[0].value.value + "."
   })
 
-  dialog.flow('MagicBoxEi2i:synth_pitch',(msg, flow) => {
+  dialog.flow('MagicBoxEi2i:theremin_tune',(msg, flow) => {
     console.log(msg)
     flow.end()
     return "Je change la tonalité de X tons X octaves"
