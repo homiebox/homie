@@ -31,32 +31,41 @@ v3.discovery.nupnpSearch()
   })
 ;
 */
-//****** from Odas ******//
+//****** Odas ******//
 
 var elevation;
 var azimut;
 
-// Add listener for DoA 
+// Add listener for tracking
 document.addEventListener('tracking', function(e) {
 
-  // Update source
-  currentFrame.sources.forEach(function(source,index) {
-      elevation = source.z;
-      azimut = source.x;
+  currentFrame.sources.forEach(function(source) {
+
+      if (source.index == 0) {
+      elevation = Math.asin(source.z) * 180 / Math.PI;
+      azimut = Math.atan2(source.y, source.x) * 180 / Math.PI;
+
       console.log('Elevation: ', elevation);
       console.log('Azimut: ', azimut);
+      }
   });
 });
 
-//****** from Snips ******//
+//****** Snips ******//
 
 withHermes(hermes => {
     const dialog = hermes.dialog()
-  
+    
     dialog.flow('MagicBoxEi2i:dev_quelAngle',(msg, flow) => {
       console.log(msg)
       flow.end()
-      return "Ton angle est de " + elevation + " degrés en élévation. Et de " + azimut + " degrés en azimut."  
+      return "Ton angle est de " + Math.trunc(elevation) + " degrés en élévation. Et de " + Math.trunc(azimut) + " degrés en azimut."   
+    })
+
+    dialog.flow('MagicBoxEi2i:dev_merci',(msg, flow) => {
+      console.log(msg)
+      flow.end()
+      return "Merci de votre écoute. En espérant vous avoir fait kiffé. Un chapeau va maintenant passer dans les rangs pour faire vos dons. A très bientot! Kiss"  
     })
   })
   

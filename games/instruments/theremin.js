@@ -10,7 +10,7 @@ const USERNAME =  'your username to authenticating with the bridge'
 ;
 
 const MyLighState = new LightState();
-/*
+
 v3.discovery.nupnpSearch()
   .then(searchResults => {
     const host = searchResults[0].ipaddress;
@@ -29,7 +29,7 @@ v3.discovery.nupnpSearch()
     console.log(`Light state change was successful? ${result}`);
   })
 ;
-*/
+
 
 //****** from Snips  ******//
 
@@ -61,40 +61,21 @@ withHermes(hermes => {
     console.log(msg)
     flow.end()
     return "Je change la tonalité de X tons X octaves"
-})
+  })
+
+  dialog.flow('MagicBoxEi2i:theremin_mute',(msg, flow) => {
+    console.log(msg)
+    flow.end()
+    return "Ok tranquille j'arretes c'est bon"
+  })
+
+
 })
 
 //****** Synth Game ******//
 
-const Speaker = require("speaker");
+//const Speaker = require("speaker");
 var context = new window.AudioContext(); // définition du contexte audio WORKING WITH SNIPS BACKGROUND OK
-
-//****** Demo 1 (web-audio-engine) ******//
-/*
-const osc = context.createOscillator();
-const amp = context.createGain();
-
-osc.type = "square";
-osc.frequency.setValueAtTime(987.7666, 0);
-osc.frequency.setValueAtTime(1318.5102, 0.075);
-osc.frequency.setValueAtTime(440, 1);
-osc.start(0);
-osc.stop(2);
-osc.connect(amp);
-/*
-osc.onended = () => {
-  context.close().then(() => {
-    process.exit(0);
-  });
-};
-*/
- /*
-amp.gain.setValueAtTime(0.25, 0);
-amp.gain.setValueAtTime(0.25, 0.075);
-amp.gain.linearRampToValueAtTime(0, 2);
-amp.connect(context.destination);
-*/
-//****** End Demo 1 ******//
 
 //****** Demo 2 (web-audio-engine) ******//
 
@@ -122,7 +103,7 @@ amp.connect(context.destination);
   var gain2 = context.createGain();
 
 
-  oscillator1.type = "sawtooth";
+  oscillator1.type = "sine";
   oscillator1.frequency.value = 500 ;
   oscillator1.start();
   oscillator1.connect(biquadFilter);
@@ -143,43 +124,41 @@ amp.connect(context.destination);
   gain2.gain.value = 400;
   gain2.connect(biquadFilter.frequency);
 
-  //****** from Odas ******//
 
-  var angle;
+//****** Odas ******//
 
-  // Add listener for DoA 
-  document.addEventListener('tracking', function(e) {
+var elevation;
+var azimut;
 
-    // Update source
-    currentFrame.sources.forEach(function(source,index) {
-        angleX = source.x;
-        angleY = source.y;
-        angleZ = source.z;
-        //console.log(angleX, angleY, angleZ);
-    });
+// Add listener for tracking
+document.addEventListener('tracking', function(e) {
+
+  currentFrame.sources.forEach(function(source) {
+
+      if (source.index == 0) {
+      elevation = Math.asin(source.z) * 180 / Math.PI;
+      azimut = Math.atan2(source.y, source.x) * 180 / Math.PI;
+
+      oscillator1.frequency.value = Math.trunc((azimut + 360) * 1.5) ;
+      oscillator2.frequency.value = Math.trunc(elevation / 10);
+      //gain1.gain.value = Math.trunc(angleZ / 10);
     
+      //MyLightState.sat(angle); 
 
-    oscillator1.frequency.value = (angleX + 2) * 100;
-    gain1.gain.value = (angleZ + 2);
-    oscillator2.frequency.value = (angleY + 2);
-    
-    //MyLightState.sat(angle);  
+      console.log('Fréquence osc 1: ', oscillator1.frequency.value);
+      console.log('Fréquence osc 2: ', oscillator2.frequency.value);
+      }
+  });
 });
-
-
-//****** End Demo 2 ******//
-
-console.log('******synthTest End******');
-
 
 // Set the output for audio streaming
 //context.pipe(process.stdout);
 
 // If you want to playback sound directly in this process, you can use 'node-speaker'.
-context.pipe(new Speaker());
+//context.pipe(new Speaker());
  
 // Start to render audio
-context.resume();
+//context.resume();
  
 // composeWith(context);
 
