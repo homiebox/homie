@@ -21,6 +21,123 @@ const PIN6= 12;
 const PIN7= 13;
 const PIN8= 15;
 
+const STOP=1025;
+
+board.on('ready', () => {
+	send(STOP);
+});
+
+
+function genericsendp0(bit)
+  {
+
+  board.pinMode(PIN1, five.Pin.OUTPUT);
+  const bit0 = five.Pin(PIN1);
+  board.pinMode(PIN2, five.Pin.OUTPUT);
+  const bit1 = five.Pin(PIN2);
+  board.pinMode(PIN5, five.Pin.OUTPUT);
+  const bit2 = five.Pin(PIN5);
+  board.pinMode(PIN6, five.Pin.OUTPUT);
+  const bit3 = five.Pin(PIN6);
+  board.pinMode(PIN7, five.Pin.OUTPUT);
+  const bit4 = five.Pin(PIN7);
+  board.pinMode(PIN8, five.Pin.OUTPUT);
+  const bit5 = five.Pin(PIN8);  
+  //PAyload 0:
+    bit0.low();
+
+  if(bit[1]==1)
+    bit1.high();
+  else if(bit[1]==0)
+    bit1.low();
+  if(bit[2]==1)
+    bit2.high();
+  else if(bit[2]==0)
+    bit2.low();
+  if(bit[3]==1)
+    bit3.high();
+  else if(bit[3]==0)
+    bit3.low();
+  if(bit[4]==1)
+    bit4.high();
+  else if(bit[4]==0)
+    bit4.low();
+  if(bit[5]==1)
+    bit5.high();
+  else if(bit[1]==0)
+    bit5.low();
+  }
+
+function genericsendp1(bit)
+  {
+    //PAyload 0:
+
+  board.pinMode(PIN1, five.Pin.OUTPUT);
+  const bit0 = five.Pin(PIN1);
+  board.pinMode(PIN2, five.Pin.OUTPUT);
+  const bit1 = five.Pin(PIN2);
+  board.pinMode(PIN5, five.Pin.OUTPUT);
+  const bit2 = five.Pin(PIN5);
+  board.pinMode(PIN6, five.Pin.OUTPUT);
+  const bit3 = five.Pin(PIN6);
+  board.pinMode(PIN7, five.Pin.OUTPUT);
+  const bit4 = five.Pin(PIN7);
+  board.pinMode(PIN8, five.Pin.OUTPUT);
+  const bit5 = five.Pin(PIN8);
+  
+  bit0.high();
+
+  if(bit[6]==1)
+    bit1.high();
+  else if(bit[6]==0)
+    bit1.low();
+  if(bit[7]==1)
+    bit2.high();
+  else if(bit[7]==0)
+    bit2.low();
+  if(bit[8]==1)
+    bit3.high();
+  else if(bit[8]==0)
+    bit3.low();
+  if(bit[9]==1)
+    bit4.high();
+  else if(bit[9]==0)
+    bit4.low();
+  if(bit[10]==1)
+    bit5.high();
+  else if(bit[10]==0)
+    bit5.low();
+  }
+
+
+
+function send(data) {
+
+  var bit=[];
+  var i=10;
+  var diviseur;
+  var reste;
+  if((data)<(Math.pow(2,i)+2))
+  {
+      for(i;i>0;i--)
+      {
+          diviseur=Math.pow(2,i);
+          reste= (data%(diviseur));
+          
+          bit[i]=parseInt(data/diviseur);
+          data=reste;
+      }
+  }
+	//console.log(bit)
+
+
+  //will separate 10 bits data in 2*5 payload
+  
+	
+	genericsendp0(bit);
+  setTimeout(genericsendp1, 50,bit);
+
+}
 
 withHermes(hermes => {
     const dialog = hermes.dialog()
@@ -30,25 +147,7 @@ withHermes(hermes => {
       flow.end()
               /* test robot */
                 console.log('TEST ROBOT AVANCE');
-                board.pinMode(PIN1, five.Pin.OUTPUT);
-                const bit0 = five.Pin(PIN1);
-                board.pinMode(PIN2, five.Pin.OUTPUT);
-                const bit1 = five.Pin(PIN2);
-                board.pinMode(PIN5, five.Pin.OUTPUT);
-                const bit2 = five.Pin(PIN5);
-                board.pinMode(PIN6, five.Pin.OUTPUT);
-                const bit3 = five.Pin(PIN6);
-                board.pinMode(PIN7, five.Pin.OUTPUT);
-                const bit4 = five.Pin(PIN7);
-                board.pinMode(PIN8, five.Pin.OUTPUT);
-                const bit5 = five.Pin(PIN8);
-              
-                bit0.high();
-                bit1.low();  
-                bit2.low();
-                bit3.low();
-                bit4.low();
-                bit5.low();
+
                 console.log('Test demarre robot with Snips'); 
 
       return "C'est parti mon kiki ! "
@@ -59,25 +158,7 @@ withHermes(hermes => {
     flow.end()
     
       console.log('TEST ROBOT STOP');
-      board.pinMode(PIN1, five.Pin.OUTPUT);
-      const bit0 = five.Pin(PIN1);
-      board.pinMode(PIN2, five.Pin.OUTPUT);
-      const bit1 = five.Pin(PIN2);
-      board.pinMode(PIN5, five.Pin.OUTPUT);
-      const bit2 = five.Pin(PIN5);
-      board.pinMode(PIN6, five.Pin.OUTPUT);
-      const bit3 = five.Pin(PIN6);
-      board.pinMode(PIN7, five.Pin.OUTPUT);
-      const bit4 = five.Pin(PIN7);
-      board.pinMode(PIN8, five.Pin.OUTPUT);
-      const bit5 = five.Pin(PIN8);
-    
-      bit0.low();
-      bit1.low();  
-      bit2.low();
-      bit3.low();
-      bit4.high();
-      bit5.low();
+      send(STOP);
       
       return "Très bien, je coupe le moteur"
     })
@@ -85,27 +166,9 @@ withHermes(hermes => {
     dialog.flow('MagicBoxEi2i:robot_droite',(msg, flow) => {
       console.log(msg)
       flow.end()
-        *
       console.log('TEST ROBOT DROITE');
-      board.pinMode(PIN1, five.Pin.OUTPUT);
-      const bit0 = five.Pin(PIN1);
-      board.pinMode(PIN2, five.Pin.OUTPUT);
-      const bit1 = five.Pin(PIN2);
-      board.pinMode(PIN5, five.Pin.OUTPUT);
-      const bit2 = five.Pin(PIN5);
-      board.pinMode(PIN6, five.Pin.OUTPUT);
-      const bit3 = five.Pin(PIN6);
-      board.pinMode(PIN7, five.Pin.OUTPUT);
-      const bit4 = five.Pin(PIN7);
-      board.pinMode(PIN8, five.Pin.OUTPUT);
-      const bit5 = five.Pin(PIN8);
-    
-      bit0.low();
-      bit1.low();  
-      bit2.low();
-      bit3.high();
-      bit4.low();
-      bit5.low();
+      azimut=270;
+      send(azimut);
       
       return "D'accord je vais à droite"
     })
@@ -116,25 +179,8 @@ withHermes(hermes => {
 
       
       console.log('TEST ROBOT GAUCHE');
-      board.pinMode(PIN1, five.Pin.OUTPUT);
-      const bit0 = five.Pin(PIN1);
-      board.pinMode(PIN2, five.Pin.OUTPUT);
-      const bit1 = five.Pin(PIN2);
-      board.pinMode(PIN5, five.Pin.OUTPUT);
-      const bit2 = five.Pin(PIN5);
-      board.pinMode(PIN6, five.Pin.OUTPUT);
-      const bit3 = five.Pin(PIN6);
-      board.pinMode(PIN7, five.Pin.OUTPUT);
-      const bit4 = five.Pin(PIN7);
-      board.pinMode(PIN8, five.Pin.OUTPUT);
-      const bit5 = five.Pin(PIN8);
-    
-      bit0.low();
-      bit1.high();  
-      bit2.low();
-      bit3.low();
-      bit4.low();
-      bit5.low();
+      azimut=90;
+      send(azimut);
       
         return "D'accord je vais à gauche"
     })
@@ -144,31 +190,17 @@ withHermes(hermes => {
       flow.end()
 
       console.log('TEST ROBOT RECULE');
-      board.pinMode(PIN1, five.Pin.OUTPUT);
-      const bit0 = five.Pin(PIN1);
-      board.pinMode(PIN2, five.Pin.OUTPUT);
-      const bit1 = five.Pin(PIN2);
-      board.pinMode(PIN5, five.Pin.OUTPUT);
-      const bit2 = five.Pin(PIN5);
-      board.pinMode(PIN6, five.Pin.OUTPUT);
-      const bit3 = five.Pin(PIN6);
-      board.pinMode(PIN7, five.Pin.OUTPUT);
-      const bit4 = five.Pin(PIN7);
-      board.pinMode(PIN8, five.Pin.OUTPUT);
-      const bit5 = five.Pin(PIN8);
-    
-      bit0.low();
-      bit1.low();  
-      bit2.high();
-      bit3.low();
-      bit4.low();
-      bit5.low();
+      azimut=180;
+      send(azimut);
       
       return "Marche arrière toute!"
     })
   
     dialog.flow('MagicBoxEi2i:robot_follow',(msg, flow) => {
       console.log(msg)
+      console.log('TEST ROBOT VIENS');
+      azimut = (Math.atan2(source.y, source.x) * 180 / Math.PI)+180;
+      send(azimut);
       flow.end()
       return "Ok je te suis"
     })
