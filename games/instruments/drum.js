@@ -2,18 +2,41 @@ const { withHermes } = require('hermes-javascript')
 
 //****** Drum Game ******//
 
-module.exports = function(context, util) {
-    var sched = new util.WebAudioScheduler({ context: context, timerAPI: global });
-  
-    function sample(list) {
-      return list[(Math.random() * list.length)|0];
-    }
-  
-    function coin(rate) {
-      return Math.random() < rate;
-    }
-  
-    return util.fetchAudioBuffer([ "kick.wav", "snare.wav", "hihat1.wav", "hihat2.wav" ]).then(function(instruments) {
+
+//****** Philips Hue ******//
+/*
+const USERNAME =  'your username to authenticating with the bridge'
+  // The name of the light we wish to retrieve by name
+  , LIGHT_ID = 2
+;
+
+const MyLighState = new LightState();
+
+v3.discovery.nupnpSearch()
+  .then(searchResults => {
+    const host = searchResults[0].ipaddress;
+    return v3.api.createInsecureLocal(host).connect(USERNAME);
+  })
+  .then(api => {
+    // Using a LightState object to build the desired state
+    const state = new LightState()
+      .on()
+      .ct(200)
+      .brightness(50)
+    ;
+    return api.lights.setLightState(LIGHT_ID, MyLighState);
+  })
+  .then(result => {
+    console.log(`Light state change was successful? ${result}`);
+  })
+;
+*/
+
+//****** Web Audio Engine ******//
+
+var context = new window.AudioContext(); // définition du contexte audio WORKING WITH SNIPS BACKGROUND OK
+  /*
+    context.createBuffer([ "kick.wav", "snare.wav", "hihat1.wav", "hihat2.wav" ]).then(function(instruments) {
       function shot(e) {
         var inst = instruments[e.args.inst % instruments.length];
         var t0 = e.playbackTime;
@@ -30,56 +53,40 @@ module.exports = function(context, util) {
         gain.gain.linearRampToValueAtTime(0, t1);
         gain.connect(context.destination);
       }
-  
-      function drum(e) {
-        var t0;
-  
-        for (var i = 0; i < 16; i++) {
-          var t0 = e.playbackTime + i * 0.125;
-  
-          // kick
-          if (i === 0) {
-            sched.insert(t0, shot, { inst: 0, amp: 1.0, duration: 1.00 });
-          } else if (i % 4 === 0 && coin(0.25)) {
-            sched.insert(t0, shot, { inst: 0, amp: 0.8, duration: 0.60 });
-          } else if (i % 2 === 0 && coin(0.15)) {
-            sched.insert(t0, shot, { inst: 0, amp: 0.6, duration: 0.40 });
-          } else if (coin(0.05)) {
-            sched.insert(t0, shot, { inst: 0, amp: 0.2, duration: 0.10 });
-          }
-  
-          // snare
-          if (i % 8 === 4 && coin(0.95)) {
-            sched.insert(t0, shot, { inst: 1, amp: 1.0, duration: 1.00 });
-          } else if (i % 4 === 0 && coin(0.1)) {
-            sched.insert(t0, shot, { inst: 1, amp: 0.6, duration: 0.50 });
-          } else if (i % 4 === 3 && coin(0.1)) {
-            sched.insert(t0, shot, { inst: 1, amp: 0.6, duration: 0.75 });
-          } else if (coin(0.1)) {
-            sched.insert(t0, shot, { inst: 1, amp: 0.2, duration: 0.10 });
-          }
-  
-          // hihat
-          if (i % 4 === 0) {
-            sched.insert(t0, shot, { inst: 2, amp: 0.40, duration: 1.00 });
-          } else if (i % 2 === 0 && coin(0.25)) {
-            sched.insert(t0, shot, { inst: 3, amp: 0.30, duration: 0.15 });
-          } else if (i % 2 === 0 && coin(0.25)) {
-            sched.insert(t0, shot, { inst: 3, amp: 0.50, duration: 0.05 });
-          } else if (i % 2 === 0 && coin(0.5)) {
-            sched.insert(t0, shot, { inst: 2, amp: 0.10, duration: 1.00 });
-          } else if (coin(0.25)) {
-            sched.insert(t0, shot, { inst: 3, amp: 0.10, duration: 0.10 });
-          } else if (coin(0.25)) {
-            sched.insert(t0, shot, { inst: 2, amp: 0.20, duration: 0.25 });
-          } else if (coin(0.8)) {
-            sched.insert(t0, shot, { inst: 2, amp: 0.05, duration: 0.85 });
-          }
-        }
-  
-        sched.insert(e.playbackTime + 2.000, drum);
-      }
-  
-      sched.start(drum);
     });
-  };
+    */
+context.createBufferSource();
+
+
+
+
+//****** Odas ******//
+
+var elevation;
+var azimut;
+
+// Add listener for tracking
+document.addEventListener('tracking', function(e) {
+
+  currentFrame.sources.forEach(function(source) {
+
+      if (source.index == 0) {
+      elevation = Math.asin(source.z) * 180 / Math.PI;
+      azimut = Math.atan2(source.y, source.x) * 180 / Math.PI;
+      console.log(azimut);
+
+      if ( azimut <= 90 && azimut >= 0) {
+        // Play kick! & Set Light Red
+      } else if ( azimut > 90 && azimut <= 180) {
+        //play snare! & Set Light Blue
+      } else if (azimut < 0 && azimut > (-180)) {
+        //play hat1 & Set Light Yellow
+      } else {
+        //play hat2 & Set Light Green
+      }
+      //console.log('Played drum ', oscillator1.frequency.value);
+      }
+  });
+});
+
+
